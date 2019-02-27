@@ -19,9 +19,11 @@ public class DrawLine : MonoBehaviour
 
     private Vector3 mouseStartPos;
 
+    public static bool RestartNewLine;
+
     void Update()
     {
-        if (currLines < 1)
+        if (currLines < 2 && !Target.LevelDone)
         {
             //Create new Line on left mouse click(down)
             if (Input.GetMouseButtonDown(0))
@@ -30,6 +32,12 @@ public class DrawLine : MonoBehaviour
                 if (line == null)
                 {
                     //create the line
+                    if (CheckIfLineExists())
+                    {
+                        Destroy(GameObject.Find("Line0"));
+                        currLines = 0;
+                        RestartNewLine = true;
+                    }
                     createLine();
                     mouseStartPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 }
@@ -54,6 +62,7 @@ public class DrawLine : MonoBehaviour
                 //set line as null once the line is created
                 line = null;
                 currLines++;
+                RestartNewLine = false;
             }
             //if mouse button is held clicked and line exists
             else if (Input.GetMouseButton(0) && line)
@@ -65,12 +74,9 @@ public class DrawLine : MonoBehaviour
             }
         }
 
-        if (Target.LevelDone)
-        {
-            var line0 = GameObject.Find("Line0").GetComponent<LineRenderer>();
-            line0.useWorldSpace = false;
-            line0.transform.position += new Vector3(0, transform.position.y - 0.1f, 0);
-        }
+        LevelDone();
+        DestroyLine();
+        Restart();
     }
 
     //method to create line
@@ -87,7 +93,7 @@ public class DrawLine : MonoBehaviour
         //render line to the world origin and not to the object's position
         line.useWorldSpace = true;
         line.numCapVertices = 50;
-        line.shadowCastingMode = ShadowCastingMode.On;
+        //line.shadowCastingMode = ShadowCastingMode.On;
     }
 
     private void AddColliderToLine(LineRenderer line, Vector3 startPoint, Vector3 endPoint)
@@ -127,5 +133,54 @@ public class DrawLine : MonoBehaviour
         // in 3d space you don't wan't to rotate on your y axis
         //lineCollider.transform.Rotate(0, angle, 0);
         lineCollider.transform.eulerAngles = new Vector3(0, 0, angle);
+    }
+
+    private bool CheckIfLineExists()
+    {
+        return GameObject.Find("Line0") != null;
+    }
+
+    private void DestroyLine()
+    {
+        if (CheckIfLineExists())
+        {
+            if (GameObject.Find("Line0").GetComponent<Renderer>().material.color.a < 0.1f)
+            {
+                Destroy(GameObject.Find("Line0"));
+            }
+        }
+    }
+
+    void Restart() //in DrawLine neustart Logik die zu DrawLine gehört reinmachen.
+    {
+        if (Sphere.CheckOffScreen() && !Target.LevelDone && CheckIfLineExists())
+        {
+            var matLine = GameObject.Find("Line0").GetComponent<Renderer>().material;
+            StartCoroutine(Animations.FadeTo(matLine, 0f, 0.3f));
+
+            currLines = 0;
+        }
+    }
+
+    void LevelDone()
+    {
+        if (Target.LevelDone)
+        {
+            //StartCoroutine(WaitLevelDone());
+            if (CheckIfLineExists())
+            {
+                var matLine = GameObject.Find("Line0").GetComponent<Renderer>().material;
+                StartCoroutine(Animations.FadeTo(matLine, 0f, 0.3f));
+                }
+        }
+    }
+
+    IEnumerator WaitLevelDone()
+    {
+        yield return new WaitForSeconds(1);
+        var line0 = GameObject.Find("Line0").GetComponent<LineRenderer>();
+        line0.useWorldSpace = false;
+        line0.transform.position += new Vector3(0, transform.position.y - 0.1f, 0);
+        //line0.transform.Rotate(0, 0, 1, Space.World);
     }
 }

@@ -5,10 +5,10 @@ public class Sphere : MonoBehaviour
 {
     private const float Velocity = 5f;
     private Vector3 _lastFrameVelocity;
-    private Rigidbody _rigidbody;
+    private static Rigidbody _rigidbody;
     private bool _startMovement = true;
     private Vector3 _initialPosition;
-    private Vector2 _screenSize;
+    private static Vector2 _screenSize;
 
     // Start is called before the first frame update
     private void Start()
@@ -23,14 +23,7 @@ public class Sphere : MonoBehaviour
     private void Update()
     {
         _lastFrameVelocity = _rigidbody.velocity;
-        if (DrawLine.currLines == 1 && _startMovement)
-        {
-            _rigidbody.velocity = new Vector3(0, -10f, 0);
-            _startMovement = false;
-            GetComponent<TrailRenderer>().enabled = true;
-        }
-
-        DestroyLine();
+        StartMoving();
         Restart();
     }
 
@@ -44,9 +37,20 @@ public class Sphere : MonoBehaviour
         }
     }
 
-    void Restart() //in DrawLine neustart Logik die zu DrawLine gehört reinmachen.
+    void StartMoving()
     {
-        if (CheckOffScreen(_rigidbody.position, _screenSize) && !Target.LevelDone)
+        // Start moving the sphere if a line is drawn
+        if (DrawLine.currLines == 1 && _startMovement)
+        {
+            _rigidbody.velocity = new Vector3(0, -10f, 0);
+            _startMovement = false;
+            GetComponent<TrailRenderer>().enabled = true;
+        }
+    }
+
+    void Restart() 
+    {
+        if ((CheckOffScreen() && !Target.LevelDone) || DrawLine.RestartNewLine)
         {
             _rigidbody.position = _initialPosition;
             _rigidbody.velocity = Vector3.zero;
@@ -57,37 +61,12 @@ public class Sphere : MonoBehaviour
             matSphere.color = colorSphere;
             StartCoroutine(Animations.FadeTo(matSphere, 1f, 0.3f));
             GetComponent<TrailRenderer>().enabled = false;
-
-            if (CheckIfLineExists())
-            {
-                var matLine = GameObject.Find("Line0").GetComponent<Renderer>().material;
-                StartCoroutine(Animations.FadeTo(matLine, 0f, 0.3f));
-            }
-
-            DrawLine.currLines = 0;
         }
     }
 
-    bool CheckOffScreen(Vector2 pos, Vector2 screenSize)
+    public static bool CheckOffScreen()
     {
-        return (pos.x < -screenSize.x || pos.x > screenSize.x || pos.y < -screenSize.y || pos.y > screenSize.y);
+        return (_rigidbody.position.x < -_screenSize.x - 1 || _rigidbody.position.x > _screenSize.x + 1 ||
+                _rigidbody.position.y < -_screenSize.y - 1 || _rigidbody.position.y > _screenSize.y + 1);
     }
-
-    private bool CheckIfLineExists()
-    {
-        return GameObject.Find("Line0") != null;
-    }
-
-    private void DestroyLine()
-    {
-        if (CheckIfLineExists())
-        {
-            if (GameObject.Find("Line0").GetComponent<Renderer>().material.color.a < 0.1f)
-            {
-                Destroy(GameObject.Find("Line0"));
-            }
-        }
-    }
-
-    
 }
