@@ -7,6 +7,7 @@ public class Target : MonoBehaviour
 {
     public static bool LevelDone;
     public static int ChildTargetsHit;
+    public static bool NeverDone = true;
 
     // Start is called before the first frame update
     void Start()
@@ -35,8 +36,12 @@ public class Target : MonoBehaviour
         if (ChildTargetsHit == transform.childCount)
         {
             LevelDone = true;
-            SceneChanger sc = new SceneChanger();
-            sc.GotoNextLevel();
+            if (NeverDone)
+            {
+                StartCoroutine(Animations.WaitForLevelEnd());
+                //SceneChanger.GotoNextLevel();
+                NeverDone = false;
+            }
         }
     }
 

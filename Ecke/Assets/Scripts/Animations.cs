@@ -60,4 +60,9 @@ public class Animations : MonoBehaviour
             yield return null;
         }
     }
+
+    public static IEnumerator WaitForLevelEnd()
+    {
+        yield return new WaitForSeconds(2);
+    }
 }

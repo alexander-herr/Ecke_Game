@@ -9,6 +9,9 @@ public class Sphere : MonoBehaviour
     private bool _startMovement = true;
     private Vector3 _initialPosition;
     private static Vector2 _screenSize;
+    private AudioSource _audioSource;
+    private AudioClip _obstacleClip;
+    private AudioClip _targetClip;
 
     // Start is called before the first frame update
     private void Start()
@@ -17,6 +20,10 @@ public class Sphere : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.position = new Vector3(_rigidbody.position.x, _rigidbody.position.y, 0);
         _initialPosition = _rigidbody.position;
+
+        _audioSource = gameObject.AddComponent<AudioSource>();
+        _obstacleClip = (AudioClip) Resources.Load("FX/ObstacleCollision");
+        _targetClip = (AudioClip) Resources.Load("FX/TargetCollision");
     }
 
     // Update is called once per frame
@@ -29,6 +36,10 @@ public class Sphere : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.transform.gameObject.name.Contains("Obstacle")) _audioSource.PlayOneShot(_obstacleClip);
+        if (collision.transform.gameObject.name.Contains("Line")) _audioSource.PlayOneShot(_obstacleClip);
+        if (collision.transform.gameObject.name.Contains("Target")) _audioSource.PlayOneShot(_targetClip);
+
         foreach (var contactPoint in collision.contacts)
         {
             _rigidbody.velocity = Vector3.Reflect(_lastFrameVelocity.normalized, contactPoint.normal) *

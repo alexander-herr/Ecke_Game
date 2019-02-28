@@ -5,18 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
-    public void GotoNextLevel()
+    public static void GotoNextLevel()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        if (currentSceneIndex < SceneManager.sceneCount - 1)
+        print(currentSceneIndex);
+        print(SceneManager.sceneCountInBuildSettings);
+        if (currentSceneIndex < SceneManager.sceneCountInBuildSettings - 1)
         {
-            StartCoroutine(WaitEnumerator());
             SceneManager.LoadScene(currentSceneIndex + 1);
         }
     }
 
-    IEnumerator WaitEnumerator()
-    {
-        yield return new WaitForSeconds(2);
-    }
+    
 }
