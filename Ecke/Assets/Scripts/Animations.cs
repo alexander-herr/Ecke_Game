@@ -61,8 +61,14 @@ public class Animations : MonoBehaviour
         }
     }
 
-    public static IEnumerator WaitForLevelEnd()
+    public static IEnumerator ChangeScene()
     {
         yield return new WaitForSeconds(2);
+        SceneChanger.GotoNextLevel();
+        DrawLine.RestartNewLine = true;
+        DrawLine.currLines = 0;
+        Target.LevelDone = false;
+        Target.ChildTargetsHit = 0;
+        Sphere.StartMovement = true;
     }
 }

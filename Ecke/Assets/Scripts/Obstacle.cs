@@ -9,7 +9,7 @@ public class Obstacle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _mat = GetComponent<Renderer>().material;
+        
     }
 
     // Update is called once per frame
@@ -22,7 +22,10 @@ public class Obstacle : MonoBehaviour
     {
         if (Target.LevelDone)
         {
-            StartCoroutine(Animations.FadeTo(_mat, 0f, 0.3f));
+            foreach (Transform child in transform)
+            {
+                StartCoroutine(Animations.FadeTo(child.GetComponent<Renderer>().material, 0f, 0.3f));
+            }
         }
     }
 }

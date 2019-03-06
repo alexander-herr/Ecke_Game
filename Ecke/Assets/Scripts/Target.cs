@@ -7,7 +7,6 @@ public class Target : MonoBehaviour
 {
     public static bool LevelDone;
     public static int ChildTargetsHit;
-    public static bool NeverDone = true;
 
     // Start is called before the first frame update
     void Start()
@@ -36,12 +35,7 @@ public class Target : MonoBehaviour
         if (ChildTargetsHit == transform.childCount)
         {
             LevelDone = true;
-            if (NeverDone)
-            {
-                StartCoroutine(Animations.WaitForLevelEnd());
-                //SceneChanger.GotoNextLevel();
-                NeverDone = false;
-            }
+            StartCoroutine(Animations.ChangeScene());
         }
     }
 
@@ -57,7 +51,8 @@ public class Target : MonoBehaviour
                     child.GetComponent<BoxCollider>().enabled = true;
                     StartCoroutine(Animations.FadeTo(child.GetComponent<Renderer>().material, 1, 0.3f));
                     StartCoroutine(Animations.Enlarge(child.transform,
-                        new Vector3(ChildTarget.OriginalSize.x, ChildTarget.OriginalSize.y, ChildTarget.OriginalSize.z), 0.3f));
+                        new Vector3(ChildTarget.OriginalSize.x, ChildTarget.OriginalSize.y, ChildTarget.OriginalSize.z),
+                        0.3f));
                 }
             }
         }
@@ -74,8 +69,8 @@ public class Target : MonoBehaviour
         }
     }
 
-    void TestScale(Vector3 targetScale, float speed)
+    public static void ReloadLevel()
     {
-        transform.localScale = Vector3.Lerp(transform.localScale, targetScale, speed * Time.deltaTime);
+        ChildTargetsHit = 0;
     }
 }

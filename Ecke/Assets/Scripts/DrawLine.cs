@@ -175,6 +175,15 @@ public class DrawLine : MonoBehaviour
         }
     }
 
+    void DestroyAllLines()
+    {
+        GameObject[] lines = (GameObject[]) FindObjectsOfType(typeof(GameObject));
+        foreach (var line in lines)
+        {
+            Destroy(line);
+        }
+    }
+
     IEnumerator WaitLevelDone()
     {
         yield return new WaitForSeconds(1);

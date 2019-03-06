@@ -6,7 +6,7 @@ public class Sphere : MonoBehaviour
     private const float Velocity = 5f;
     private Vector3 _lastFrameVelocity;
     private static Rigidbody _rigidbody;
-    private bool _startMovement = true;
+    public static bool StartMovement = true;
     private Vector3 _initialPosition;
     private static Vector2 _screenSize;
     private AudioSource _audioSource;
@@ -51,10 +51,10 @@ public class Sphere : MonoBehaviour
     void StartMoving()
     {
         // Start moving the sphere if a line is drawn
-        if (DrawLine.currLines == 1 && _startMovement)
+        if (DrawLine.currLines == 1 && StartMovement)
         {
             _rigidbody.velocity = new Vector3(0, -10f, 0);
-            _startMovement = false;
+            StartMovement = false;
             GetComponent<TrailRenderer>().enabled = true;
         }
     }
@@ -63,21 +63,28 @@ public class Sphere : MonoBehaviour
     {
         if ((CheckOffScreen() && !Target.LevelDone) || DrawLine.RestartNewLine)
         {
+            GetComponent<TrailRenderer>().Clear();
+            GetComponent<TrailRenderer>().enabled = false;
             _rigidbody.position = _initialPosition;
             _rigidbody.velocity = Vector3.zero;
-            _startMovement = true;
+            StartMovement = true;
             var matSphere = GetComponent<Renderer>().material;
             var colorSphere = matSphere.color;
             colorSphere.a = 0;
             matSphere.color = colorSphere;
             StartCoroutine(Animations.FadeTo(matSphere, 1f, 0.3f));
-            GetComponent<TrailRenderer>().enabled = false;
         }
     }
+
+    /*public static bool CheckOffScreen()
+    {
+        return (_rigidbody.position.x < -_screenSize.x - 1 || _rigidbody.position.x > _screenSize.x + 1 ||
+                _rigidbody.position.y < -_screenSize.y - 1 || _rigidbody.position.y > _screenSize.y + 1);
+    }*/
 
     public static bool CheckOffScreen()
     {
         return (_rigidbody.position.x < -_screenSize.x - 1 || _rigidbody.position.x > _screenSize.x + 1 ||
-                _rigidbody.position.y < -_screenSize.y - 1 || _rigidbody.position.y > _screenSize.y + 1);
+                          _rigidbody.position.y < -_screenSize.y - 1 || _rigidbody.position.y > _screenSize.y + 1);
     }
 }
