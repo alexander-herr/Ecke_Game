@@ -41,7 +41,7 @@ public class Target : MonoBehaviour
 
     void ReloadChild()
     {
-        if (Sphere.CheckOffScreen() && !LevelDone || DrawLine.RestartNewLine)
+        if (FindObjectOfType<Sphere>().CheckOffScreen() && !LevelDone || DrawLine.RestartNewLine)
         {
             ChildTargetsHit = 0;
             foreach (Transform child in transform)

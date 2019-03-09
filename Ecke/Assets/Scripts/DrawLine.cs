@@ -21,6 +21,10 @@ public class DrawLine : MonoBehaviour
 
     public static bool RestartNewLine;
 
+    void Start()
+    {
+    }
+
     void Update()
     {
         if (currLines < 2 && !Target.LevelDone)
@@ -93,7 +97,7 @@ public class DrawLine : MonoBehaviour
         //render line to the world origin and not to the object's position
         line.useWorldSpace = true;
         line.numCapVertices = 50;
-        //line.shadowCastingMode = ShadowCastingMode.On;
+        
     }
 
     private void AddColliderToLine(LineRenderer line, Vector3 startPoint, Vector3 endPoint)
@@ -153,7 +157,7 @@ public class DrawLine : MonoBehaviour
 
     void Restart() //in DrawLine neustart Logik die zu DrawLine gehört reinmachen.
     {
-        if (Sphere.CheckOffScreen() && !Target.LevelDone && CheckIfLineExists())
+        if (FindObjectOfType<Sphere>().CheckOffScreen() && !Target.LevelDone && CheckIfLineExists())
         {
             var matLine = GameObject.Find("Line0").GetComponent<Renderer>().material;
             StartCoroutine(Animations.FadeTo(matLine, 0f, 0.3f));

@@ -79,9 +79,9 @@ public class Sphere : MonoBehaviour
                 _rigidbody.position.y < -_screenSize.y - 1 || _rigidbody.position.y > _screenSize.y + 1);
     }*/
 
-    public static bool CheckOffScreen()
+    public bool CheckOffScreen()
     {
-        return (_rigidbody.position.x < -_screenSize.x - 1 || _rigidbody.position.x > _screenSize.x + 1 ||
-                          _rigidbody.position.y < -_screenSize.y - 1 || _rigidbody.position.y > _screenSize.y + 1);
+        return (transform.position.x < -_screenSize.x - 1 || transform.position.x > _screenSize.x + 1 ||
+                          transform.position.y < -_screenSize.y - 1 || transform.position.y > _screenSize.y + 1);
     }
 }
