@@ -50,9 +50,8 @@ public class Target : MonoBehaviour
                 {
                     child.GetComponent<BoxCollider>().enabled = true;
                     StartCoroutine(Animations.FadeTo(child.GetComponent<Renderer>().material, 1, 0.3f));
-                    StartCoroutine(Animations.Enlarge(child.transform,
-                        new Vector3(ChildTarget.OriginalSize.x, ChildTarget.OriginalSize.y, ChildTarget.OriginalSize.z),
-                        0.3f));
+                    StartCoroutine(Animations.Enlarge(child.transform, ChildTarget.OriginalSize, 0.3f));
+                    //StartCoroutine(Animations.Enlarge(child.transform, new Vector3(child.transform.localScale.x / 1.5f, child.transform.localScale.y / 1.5f, child.transform.localScale.z / 1.5f), 0.3f));
                 }
             }
         }

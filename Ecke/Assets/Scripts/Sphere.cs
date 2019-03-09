@@ -55,7 +55,6 @@ public class Sphere : MonoBehaviour
         {
             _rigidbody.velocity = new Vector3(0, -10f, 0);
             StartMovement = false;
-            GetComponent<TrailRenderer>().enabled = true;
         }
     }
 
@@ -63,8 +62,6 @@ public class Sphere : MonoBehaviour
     {
         if ((CheckOffScreen() && !Target.LevelDone) || DrawLine.RestartNewLine)
         {
-            GetComponent<TrailRenderer>().Clear();
-            GetComponent<TrailRenderer>().enabled = false;
             _rigidbody.position = _initialPosition;
             _rigidbody.velocity = Vector3.zero;
             StartMovement = true;

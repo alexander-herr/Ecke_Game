@@ -21,7 +21,7 @@ public class ChildTarget : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Rotation();
     }
 
     void OnCollisionEnter(Collision collision)
@@ -34,8 +34,16 @@ public class ChildTarget : MonoBehaviour
     
     void StartChildAnimation()
     {
-        StartCoroutine(Animations.Enlarge(transform,
-            new Vector3(EnlargedSize.x, EnlargedSize.y, EnlargedSize.z), 0.3f));
+        StartCoroutine(Animations.Enlarge(transform, EnlargedSize, 0.3f));
+        //StartCoroutine(Animations.Enlarge(transform, new Vector3(transform.localScale.x * 1.5f, transform.localScale.y * 1.5f, transform.localScale.z * 1.5f), 0.3f));
         StartCoroutine(Animations.FadeTo(GetComponent<Renderer>().material, 0, 0.3f));
+    }
+
+    void Rotation()
+    {
+        if (transform.tag == "Rotate")
+        {
+            transform.Rotate(0, 0, -1);
+        }
     }
 }
