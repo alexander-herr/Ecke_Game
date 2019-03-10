@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Rotate
+  - MoveUpDown
+  - MoveLeftRight
   layers:
   - Default
   - TransparentFX

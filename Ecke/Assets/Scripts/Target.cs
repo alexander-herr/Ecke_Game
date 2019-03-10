@@ -46,12 +46,25 @@ public class Target : MonoBehaviour
             ChildTargetsHit = 0;
             foreach (Transform child in transform)
             {
-                if (!child.GetComponent<BoxCollider>().enabled)
+                if (child.GetComponent<BoxCollider>() != null)
                 {
-                    child.GetComponent<BoxCollider>().enabled = true;
-                    StartCoroutine(Animations.FadeTo(child.GetComponent<Renderer>().material, 1, 0.3f));
-                    StartCoroutine(Animations.Enlarge(child.transform, ChildTarget.OriginalSize, 0.3f));
-                    //StartCoroutine(Animations.Enlarge(child.transform, new Vector3(child.transform.localScale.x / 1.5f, child.transform.localScale.y / 1.5f, child.transform.localScale.z / 1.5f), 0.3f));
+                    if (!child.GetComponent<BoxCollider>().enabled)
+                    {
+                        child.GetComponent<BoxCollider>().enabled = true;
+                        StartCoroutine(Animations.FadeTo(child.GetComponent<Renderer>().material, 1, 0.3f));
+                        StartCoroutine(Animations.Enlarge(child.transform, ChildTarget.OriginalSize, 0.3f));
+                        //StartCoroutine(Animations.Enlarge(child.transform, new Vector3(child.transform.localScale.x / 1.5f, child.transform.localScale.y / 1.5f, child.transform.localScale.z / 1.5f), 0.3f));
+                    }
+                } 
+                else if (child.GetComponent<MeshCollider>() != null)
+                {
+                    if (!child.GetComponent<MeshCollider>().enabled)
+                    {
+                        child.GetComponent<MeshCollider>().enabled = true;
+                        StartCoroutine(Animations.FadeTo(child.GetComponent<Renderer>().material, 1, 0.3f));
+                        StartCoroutine(Animations.Enlarge(child.transform, ChildTarget.OriginalSize, 0.3f));
+                        //StartCoroutine(Animations.Enlarge(child.transform, new Vector3(child.transform.localScale.x / 1.5f, child.transform.localScale.y / 1.5f, child.transform.localScale.z / 1.5f), 0.3f));
+                    }
                 }
             }
         }

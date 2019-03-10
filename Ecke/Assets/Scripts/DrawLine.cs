@@ -81,6 +81,7 @@ public class DrawLine : MonoBehaviour
         LevelDone();
         DestroyLine();
         Restart();
+        DestroyLine1();
     }
 
     //method to create line
@@ -176,6 +177,16 @@ public class DrawLine : MonoBehaviour
                 var matLine = GameObject.Find("Line0").GetComponent<Renderer>().material;
                 StartCoroutine(Animations.FadeTo(matLine, 0f, 0.3f));
                 }
+        }
+    }
+
+    // Functin for Sphere Prefab Bug
+    void DestroyLine1()
+    {
+        if (GameObject.Find("Line1") != null)
+        {
+            Destroy(GameObject.Find("Line1"));
+            currLines = 0;
         }
     }
 

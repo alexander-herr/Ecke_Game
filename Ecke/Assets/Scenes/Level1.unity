@@ -341,6 +341,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -425,6 +426,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca096e978a6c2954385ad202443bd469, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PS: {fileID: 1637303755}
 --- !u!1 &981673040
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,6 +695,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 154bc52a3c647344693f079edf98a990, type: 3}
+--- !u!198 &1637303755 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7410824693896136467, guid: fd7baf8619eace54aa37ae182f252886,
+    type: 3}
+  m_PrefabInstance: {fileID: 1693385659}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1676286038
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,3 +745,72 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ed3039748061b140a86e9bae6473463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &1693385659
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7410824693896136465, guid: fd7baf8619eace54aa37ae182f252886,
+        type: 3}
+      propertyPath: m_Name
+      value: ParticleSystemMouse
+      objectReference: {fileID: 0}
+    - target: {fileID: 7410824693896136466, guid: fd7baf8619eace54aa37ae182f252886,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7410824693896136466, guid: fd7baf8619eace54aa37ae182f252886,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7410824693896136466, guid: fd7baf8619eace54aa37ae182f252886,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7410824693896136466, guid: fd7baf8619eace54aa37ae182f252886,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7410824693896136466, guid: fd7baf8619eace54aa37ae182f252886,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7410824693896136466, guid: fd7baf8619eace54aa37ae182f252886,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7410824693896136466, guid: fd7baf8619eace54aa37ae182f252886,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7410824693896136466, guid: fd7baf8619eace54aa37ae182f252886,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7410824693896136466, guid: fd7baf8619eace54aa37ae182f252886,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7410824693896136466, guid: fd7baf8619eace54aa37ae182f252886,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7410824693896136466, guid: fd7baf8619eace54aa37ae182f252886,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fd7baf8619eace54aa37ae182f252886, type: 3}

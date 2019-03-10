@@ -16,7 +16,7 @@ public class Particles : MonoBehaviour
     void Update()
     {
         PS.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !Target.LevelDone)
         {
             PS.Play();
         }
