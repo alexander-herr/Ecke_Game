@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.PostProcessing;
 
 public class Sphere : MonoBehaviour
 {
@@ -57,12 +56,13 @@ public class Sphere : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.gameObject.name.Contains("Obstacle")) _audioSource.PlayOneShot(_targetClip); // Variable umbenennen
+        if (collision.transform.gameObject.name.Contains("Obstacle")) _audioSource.PlayOneShot(_obstacleClip); 
         if (collision.transform.gameObject.name.Contains("Line")) _audioSource.PlayOneShot(_obstacleClip);
         //if (collision.transform.gameObject.name.Contains("Target")) _audioSource.PlayOneShot(_targetClip);
 
         if (collision.transform.gameObject.name.Contains("Target"))
         {
+            if (collisionCount == 7) collisionCount = 0;
             _audioSource.PlayOneShot((AudioClip) pianoScale[collisionCount]);
             collisionCount++;
         }
@@ -119,10 +119,10 @@ public class Sphere : MonoBehaviour
         GameObject.Find("Point Light").SetActive(false);
 
         // Add Post Processing Bloom
-        var mainCamera = GameObject.Find("Main Camera");
+        /*var mainCamera = GameObject.Find("Main Camera");
         mainCamera.AddComponent<PostProcessingBehaviour>();
         mainCamera.GetComponent<PostProcessingBehaviour>().profile = (PostProcessingProfile) Resources.Load("Materials/Post_Processing");
         PostProcessingProfile profile = mainCamera.GetComponent<PostProcessingBehaviour>().profile;
-        profile.bloom.enabled = true;
+        profile.bloom.enabled = true;*/
     }
 }
