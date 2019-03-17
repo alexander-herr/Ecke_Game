@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.PostProcessing;
 
 public class Sphere : MonoBehaviour
 {
@@ -19,8 +20,7 @@ public class Sphere : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        // Deactivate Point Light
-        GameObject.Find("Point Light").SetActive(false);
+        setAll();
 
         _screenSize = new Vector2(Camera.main.aspect * Camera.main.orthographicSize, Camera.main.orthographicSize);
         _rigidbody = GetComponent<Rigidbody>();
@@ -111,5 +111,18 @@ public class Sphere : MonoBehaviour
     {
         return (transform.position.x < -_screenSize.x - 1 || transform.position.x > _screenSize.x + 1 ||
                 transform.position.y < -_screenSize.y - 1 || transform.position.y > _screenSize.y + 1);
+    }
+
+    void setAll()
+    {
+        // Deactivate Point Light
+        GameObject.Find("Point Light").SetActive(false);
+
+        // Add Post Processing Bloom
+        var mainCamera = GameObject.Find("Main Camera");
+        mainCamera.AddComponent<PostProcessingBehaviour>();
+        mainCamera.GetComponent<PostProcessingBehaviour>().profile = (PostProcessingProfile) Resources.Load("Materials/Post_Processing");
+        PostProcessingProfile profile = mainCamera.GetComponent<PostProcessingBehaviour>().profile;
+        profile.bloom.enabled = true;
     }
 }
