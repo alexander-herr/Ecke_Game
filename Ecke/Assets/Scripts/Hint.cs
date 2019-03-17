@@ -8,8 +8,8 @@ public class Hint : MonoBehaviour
     void Start()
     {
         // Comment out for testing purposes
-        //transform.GetComponent<BoxCollider>().enabled = false;
-        //transform.GetComponent<MeshRenderer>().enabled = false;
+        transform.GetComponent<BoxCollider>().enabled = false;
+        transform.GetComponent<MeshRenderer>().enabled = false;
     }
 
     // Update is called once per frame

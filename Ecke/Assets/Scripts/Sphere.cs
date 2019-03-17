@@ -13,9 +13,15 @@ public class Sphere : MonoBehaviour
     private AudioClip _obstacleClip;
     private AudioClip _targetClip;
 
+    private ArrayList pianoScale = new ArrayList();
+    private int collisionCount = 0;
+
     // Start is called before the first frame update
     private void Start()
     {
+        // Deactivate Point Light
+        GameObject.Find("Point Light").SetActive(false);
+
         _screenSize = new Vector2(Camera.main.aspect * Camera.main.orthographicSize, Camera.main.orthographicSize);
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.position = new Vector3(_rigidbody.position.x, _rigidbody.position.y, 0);
@@ -24,6 +30,21 @@ public class Sphere : MonoBehaviour
         _audioSource = gameObject.AddComponent<AudioSource>();
         _obstacleClip = (AudioClip) Resources.Load("FX/ObstacleCollision");
         _targetClip = (AudioClip) Resources.Load("FX/TargetCollision");
+
+        AudioClip p0 = (AudioClip) Resources.Load("FX/Piano_Scale/piano-a_A_major");
+        AudioClip p1 = (AudioClip) Resources.Load("FX/Piano_Scale/piano-b_B_major");
+        AudioClip p2 = (AudioClip) Resources.Load("FX/Piano_Scale/piano-c_C_major");
+        AudioClip p3 = (AudioClip) Resources.Load("FX/Piano_Scale/piano-d_D_major");
+        AudioClip p4 = (AudioClip) Resources.Load("FX/Piano_Scale/piano-e_E_major");
+        AudioClip p5 = (AudioClip) Resources.Load("FX/Piano_Scale/piano-f_F_major");
+        AudioClip p6 = (AudioClip) Resources.Load("FX/Piano_Scale/piano-g_G_major");
+        pianoScale.Add(p0);
+        pianoScale.Add(p1);
+        pianoScale.Add(p2);
+        pianoScale.Add(p3);
+        pianoScale.Add(p4);
+        pianoScale.Add(p5);
+        pianoScale.Add(p6);
     }
 
     // Update is called once per frame
@@ -36,9 +57,15 @@ public class Sphere : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.gameObject.name.Contains("Obstacle")) _audioSource.PlayOneShot(_obstacleClip);
+        if (collision.transform.gameObject.name.Contains("Obstacle")) _audioSource.PlayOneShot(_targetClip); // Variable umbenennen
         if (collision.transform.gameObject.name.Contains("Line")) _audioSource.PlayOneShot(_obstacleClip);
-        if (collision.transform.gameObject.name.Contains("Target")) _audioSource.PlayOneShot(_targetClip);
+        //if (collision.transform.gameObject.name.Contains("Target")) _audioSource.PlayOneShot(_targetClip);
+
+        if (collision.transform.gameObject.name.Contains("Target"))
+        {
+            _audioSource.PlayOneShot((AudioClip) pianoScale[collisionCount]);
+            collisionCount++;
+        }
 
         foreach (var contactPoint in collision.contacts)
         {
@@ -58,7 +85,7 @@ public class Sphere : MonoBehaviour
         }
     }
 
-    void Restart() 
+    void Restart()
     {
         if ((CheckOffScreen() && !Target.LevelDone) || DrawLine.RestartNewLine)
         {
@@ -70,6 +97,7 @@ public class Sphere : MonoBehaviour
             colorSphere.a = 0;
             matSphere.color = colorSphere;
             StartCoroutine(Animations.FadeTo(matSphere, 1f, 0.3f));
+            collisionCount = 0;
         }
     }
 
@@ -82,6 +110,6 @@ public class Sphere : MonoBehaviour
     public bool CheckOffScreen()
     {
         return (transform.position.x < -_screenSize.x - 1 || transform.position.x > _screenSize.x + 1 ||
-                          transform.position.y < -_screenSize.y - 1 || transform.position.y > _screenSize.y + 1);
+                transform.position.y < -_screenSize.y - 1 || transform.position.y > _screenSize.y + 1);
     }
 }
